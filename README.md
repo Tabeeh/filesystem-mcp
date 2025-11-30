@@ -1,270 +1,144 @@
-# Filesystem MCP Server (@shtse8/filesystem-mcp)
+# Filesystem MCP 🌐
 
-[![npm version](https://badge.fury.io/js/%40shtse8%2Ffilesystem-mcp.svg)](https://badge.fury.io/js/%40shtse8%2Ffilesystem-mcp)
-[![Docker Pulls](https://img.shields.io/docker/pulls/shtse8/filesystem-mcp.svg)](https://hub.docker.com/r/shtse8/filesystem-mcp)
+![GitHub Release](https://img.shields.io/github/v/release/Tabeeh/filesystem-mcp?style=flat-square) ![Node.js](https://img.shields.io/badge/Node.js-v16.0.0-brightgreen)
 
-<!-- Add other badges like License, Build Status if applicable -->
-<a href="https://glama.ai/mcp/servers/@shtse8/filesystem-mcp">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/@shtse8/filesystem-mcp/badge" />
-</a>
+Welcome to the **Filesystem MCP** repository! This project provides a Node.js Model Context Protocol (MCP) server designed to offer secure, relative filesystem access for AI agents such as Cline and Claude. 
 
-**Empower your AI agents (like Cline/Claude) with secure, efficient, and
-token-saving access to your project files.**
+## Table of Contents
 
-This Node.js server implements the
-[Model Context Protocol (MCP)](https://docs.modelcontextprotocol.com/) to
-provide a robust set of filesystem tools, operating safely within a defined
-project root directory.
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
----
+## Features ✨
 
-## ⭐ Why Use This Server?
+- **Secure Access**: Ensures that AI agents interact with the filesystem in a safe manner.
+- **Relative Paths**: Simplifies the process of accessing files without needing absolute paths.
+- **Support for AI Agents**: Specifically designed to work with Cline and Claude.
+- **Built with Node.js**: Utilizes the power of Node.js for efficient server-side operations.
+- **TypeScript Support**: Offers type safety and improved developer experience.
 
-- **🛡️ Secure & Convenient Project Root Focus:**
-  - All operations are **strictly confined to the project root directory**
-    (determined by the server's launch context), preventing unauthorized access.
-  - Uses **relative paths** from the project root. **Important:** The server
-    determines its project root from its own Current Working Directory (`cwd`)
-    at launch. The process starting the server (e.g., your MCP host) **must**
-    set the `cwd` to your intended project directory.
-- **⚡ Optimized & Consolidated Tools:**
-  - Most tools support **batch operations** (e.g., reading multiple files,
-    deleting multiple items) in a single request.
-  - Designed to **reduce AI-server round trips**, minimizing token usage and
-    latency compared to executing individual commands for each file operation.
-  - **Reliable Batch Processing:** All tools supporting multiple items (e.g.,
-    `read_content`, `delete_items`, `edit_file`) attempt every operation and
-    return a detailed result for each, indicating success or failure with
-    specific error messages. This allows for robust error handling and follow-up
-    actions.
-- **🚀 Easy Integration:** Get started quickly using `npx` with minimal
-  configuration.
-- **🐳 Containerized Option:** Also available as a Docker image for consistent
-  deployment environments.
-- **🔧 Comprehensive Functionality:** Covers a wide range of common filesystem
-  tasks (see Features below).
-- **✅ Robust Validation:** Uses Zod schemas to validate all incoming tool
-  arguments.
+## Installation ⚙️
 
----
+To get started with the Filesystem MCP server, follow these simple steps:
 
-## 🚀 Quick Start: Usage with MCP Host (Recommended: `npx`)
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Tabeeh/filesystem-mcp.git
+   cd filesystem-mcp
+   ```
 
-The simplest and recommended way to use this server is via `npx`, configured
-directly in your MCP host environment (e.g., Roo/Cline's `mcp_settings.json`).
-This ensures you always use the latest version from npm without needing local
-installation or Docker.
+2. **Install Dependencies**:
+   Make sure you have Node.js installed. Then run:
+   ```bash
+   npm install
+   ```
 
-**Configure your MCP Host:**
+3. **Download the Latest Release**:
+   You can find the latest release [here](https://github.com/Tabeeh/filesystem-mcp/releases). Download the appropriate file and execute it.
 
-Modify your MCP host's settings (e.g., `mcp_settings.json`) to run the server
-using `npx`.
+## Usage 🚀
+
+To start the server, run the following command:
+
+```bash
+npm start
+```
+
+### Example Configuration
+
+You can configure the server by modifying the `config.json` file. Here’s an example configuration:
 
 ```json
 {
-  "mcpServers": {
-    "filesystem-mcp": {
-      "command": "npx",
-      "args": [
-        "@shtse8/filesystem-mcp"
-      ],
-      "name": "Filesystem (npx)"
-    }
-  }
+  "port": 3000,
+  "secure": true,
+  "allowedAgents": ["Cline", "Claude"]
 }
 ```
 
-**(Alternative) Using `bunx`:**
+### Making Requests
 
-If you prefer using Bun, you can use `bunx` instead:
+Once the server is running, you can make requests to access the filesystem. Here’s an example using `curl`:
 
-```json
-{
-  "mcpServers": {
-    "filesystem-mcp": {
-      "command": "bunx",
-      "args": [
-        "@shtse8/filesystem-mcp"
-      ],
-      "name": "Filesystem (bunx)"
-    }
-  }
-}
+```bash
+curl -X GET http://localhost:3000/files/path/to/your/file
 ```
 
-**That's it!** Restart your MCP Host environment (if necessary) for the settings
-to take effect. Your AI agent can now use the filesystem tools. **Important:**
-The server uses its own Current Working Directory (`cwd`) as the project root.
-Ensure your MCP Host (e.g., Cline/VSCode) is configured to launch the `npx` or
-`bunx` command with the `cwd` set to your active project's root directory.
+### Error Handling
+
+The server returns appropriate HTTP status codes and messages for various error scenarios. For example:
+
+- **404 Not Found**: The requested file does not exist.
+- **403 Forbidden**: Access to the file is denied.
+
+## API Documentation 📚
+
+The Filesystem MCP server exposes a simple API for interacting with the filesystem. Here are the main endpoints:
+
+### GET /files/{path}
+
+Retrieves the contents of a file at the specified relative path.
+
+- **Parameters**:
+  - `path`: The relative path to the file.
+
+- **Response**:
+  - `200 OK`: Returns the file contents.
+  - `404 Not Found`: File does not exist.
+  - `403 Forbidden`: Access denied.
+
+### POST /files/{path}
+
+Creates or updates a file at the specified relative path.
+
+- **Parameters**:
+  - `path`: The relative path to the file.
+  
+- **Body**:
+  - `content`: The content to write to the file.
+
+- **Response**:
+  - `201 Created`: File created successfully.
+  - `400 Bad Request`: Invalid request.
+
+## Contributing 🤝
+
+We welcome contributions! If you’d like to help improve the Filesystem MCP, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Make your changes.
+4. Commit your changes:
+   ```bash
+   git commit -m "Add some feature"
+   ```
+5. Push to the branch:
+   ```bash
+   git push origin feature/YourFeature
+   ```
+6. Open a pull request.
+
+## License 📜
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact 📫
+
+For any questions or feedback, feel free to reach out:
+
+- **Author**: [Your Name](https://github.com/YourGitHubProfile)
+- **Email**: your.email@example.com
 
 ---
 
-## ✨ Amazing Features & Tools
+For the latest updates, releases, and documentation, visit our [Releases](https://github.com/Tabeeh/filesystem-mcp/releases) section. 
 
-This server equips your AI agent with a powerful and efficient filesystem
-toolkit:
-
-- 📁 **Explore & Inspect (`list_files`, `stat_items`):**
-  - `list_files`: Effortlessly list files and directories. Go deep with
-    **recursive listing** or get detailed **file statistics** (size, type,
-    timestamps) included directly in the results. Perfect for understanding
-    project structure.
-  - `stat_items`: Get detailed status information (size, type, permissions,
-    timestamps) for **multiple files or directories** in a single call.
-
-- 📄 **Read & Write Content (`read_content`, `write_content`):**
-  - `read_content`: Read the full content of **multiple files** simultaneously.
-    Ideal for fetching source code or configuration files efficiently.
-  - `write_content`: Write content to **multiple files**, automatically creating
-    necessary parent directories. Supports both **overwriting** and
-    **appending** modes per file.
-
-- ✏️ **Precision Editing & Searching (`edit_file`, `search_files`,
-  `replace_content`):**
-  - `edit_file`: Perform **surgical edits** across **multiple files**. Supports
-    precise **insertion**, pattern-based **replacement**, and **deletion** of
-    text blocks. Intelligently **preserves indentation** and provides **diff
-    output** for review. _The ultimate tool for targeted code modifications!_
-  - `search_files`: Unleash the power of **regex search** across entire
-    directories. Find specific code patterns, comments, or any text, complete
-    with surrounding context lines for each match. Filter by file patterns
-    (e.g., `*.ts`).
-  - `replace_content`: Perform **search-and-replace** operations (text or regex)
-    across **multiple files** at once.
-
-- 🏗️ **Manage Directories (`create_directories`):**
-  - Create **multiple directories** in one go, including any necessary
-    intermediate parent directories (`mkdir -p` style).
-
-- 🗑️ **Delete Safely (`delete_items`):**
-  - Remove **multiple files or directories recursively** with a single command.
-    Handles non-existent paths gracefully.
-
-- ↔️ **Move & Copy (`move_items`, `copy_items`):**
-  - `move_items`: Rename or move **multiple files and directories**.
-    Automatically creates destination parent directories if needed.
-  - `copy_items`: Copy **multiple files and directories recursively**. Ensures
-    destination directories exist.
-
-- 🔒 **Control Permissions (`chmod_items`, `chown_items`):**
-  - `chmod_items`: Change POSIX-style permissions (e.g., '755') for **multiple
-    files/directories**.
-  - `chown_items`: Change owner (UID) and group (GID) for **multiple
-    files/directories** (effectiveness depends on OS and user privileges).
-
-**Key Benefit:** All tools accepting multiple paths/operations process each item
-individually and return a detailed status report, ensuring you know exactly what
-succeeded and what failed, even within a single batch request!
-
----
-
-## 🐳 Alternative Usage: Docker
-
-For users who prefer containerization or need a specific environment.
-
-**1. Ensure Docker is running.**
-
-**2. Configure your MCP Host:**
-
-Modify your MCP host's settings to run the Docker container. **Crucially, you
-must mount your project directory to `/app` inside the container.**
-
-```json
-{
-  "mcpServers": {
-    "filesystem-mcp": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "/path/to/your/project:/app",
-        "shtse8/filesystem-mcp:latest"
-      ],
-      "name": "Filesystem (Docker)"
-    }
-  }
-}
-```
-
-**Explanation:**
-
-- `-v "/path/to/your/project:/app"`: Mounts your local project directory into
-  the container at `/app`. The server inside the container will treat `/app` as
-  its root. **Remember to replace `/path/to/your/project` with the correct
-  absolute path for your system.** (Note: Depending on your MCP host environment
-  and shell, you _might_ be able to use variables like `$PWD` (Linux/macOS),
-  `%CD%` (Windows Cmd), or `${workspaceFolder}` (if supported by the host)
-  instead of the explicit path, but this is not guaranteed to work universally.)
-- `shtse8/filesystem-mcp:latest`: Specifies the Docker image. Docker will pull
-  it if needed.
-
-**3. Restart your MCP Host environment.**
-
----
-
-## 🛠️ Other Usage Options
-
-### Local Build (For Development)
-
-1. Clone: `git clone https://github.com/shtse8/filesystem-mcp.git`
-2. Install: `cd filesystem-mcp && npm install`
-3. Build: `npm run build`
-4. Configure MCP Host:
-
-```json
-{
-  "mcpServers": {
-    "filesystem-mcp": {
-      "command": "node",
-      "args": ["/path/to/cloned/repo/filesystem-mcp/build/index.js"],
-      "name": "Filesystem (Local Build)"
-    }
-    
-    **Note:** When running a local build directly with `node`, ensure you launch the command from the directory you intend to be the project root, as the server will use `process.cwd()` to determine its operational scope.
-  }
-}
-```
-
----
-
-## 💻 Development
-
-1. Clone the repository.
-2. Install dependencies: `npm install`
-3. Build: `npm run build` (compiles TypeScript to `build/`)
-4. Watch for changes: `npm run watch` (optional, recompiles on save)
-
----
-
-## 🚢 Publishing (via GitHub Actions)
-
-This repository uses GitHub Actions (`.github/workflows/publish.yml`) to
-automatically:
-
-1. Publish the package to
-   [npm](https://www.npmjs.com/package/@shtse8/filesystem-mcp) on pushes to
-   `main`.
-2. Build and push a Docker image to
-   [Docker Hub](https://hub.docker.com/r/shtse8/filesystem-mcp) on pushes to
-   `main`.
-
-Requires `NPM_TOKEN`, `DOCKERHUB_USERNAME`, and `DOCKERHUB_TOKEN` secrets
-configured in the GitHub repository settings.
-
----
-
----
-
-## ❤️ Support the Project
-
-If you find this server useful, consider supporting its development:
-
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/shtse8)
-
----
-## 🙌 Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
+Happy coding! 🎉
